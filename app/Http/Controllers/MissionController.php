@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Mission;
 use App\Models\Client;
+
+use App\Models\Ninja;
+use App\Models\MissionsNinjas;
+use App\Models\Mission;
 
 class MissionController extends Controller
 {
@@ -169,11 +172,15 @@ class MissionController extends Controller
     
     public function checkMission($id){
 
-		$mission = Mission::find($id);
+        $mission = Mission::find($id);
+        
+        $missionsNinjas = MissionsNinjas::all();
+
+        $result = [];
 
 		if($mission){
 
-			return response()->json(
+			$result[] =
 
 				[
 					"id" => $mission->id,
@@ -184,18 +191,43 @@ class MissionController extends Controller
                     "status" => $mission->status,
                     "URGENT" => $mission->URGENT,
                     "request_date" => $mission->created_at
-                ]
+                ];
                 
-                //ADD NINJAS
+            foreach ($missionsNinjas as $missionNinja) {
+    
+                if($missionNinja->mission_id == $mission->id){
 
-			);
-		}
+                    $ninja = Ninja::where('id',$missionNinja->ninja_id)->get();
 
-		return response("Pilot Not Found");
+                    if($ninja){
+                        foreach ($ninja as $ninja) {
+    
+                            if($missionNinja->mission_id == $mission->id){
+        
+                                $result[] = [
+            
+                                    "ninja_name" => $ninja->name
+                    
+                                ];
+                            }
+    
+                        }
+    
+                    }
+
+                }
+
+            }
+
+		}else{
+            return response("Mission Not Found");
+        }
+
+		return response()->json($result);
     }
     
     public function filter($filter,$value){
-        
+
         $missions = Mission::orderBy('URGENT','DESC')->orderBy('created_at','ASC')->get();
 
         $result = [];

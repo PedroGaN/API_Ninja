@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Ninja;
+use App\Models\MissionsNinjas;
+use App\Models\Mission;
 
 class NinjaController extends Controller
 {
@@ -196,11 +198,15 @@ class NinjaController extends Controller
     
     public function checkNinja($id){
 
-		$ninja = Ninja::find($id);
+        $ninja = Ninja::find($id);
+        
+        $missionsNinjas = MissionsNinjas::all();
+
+        $result = [];
 
 		if($ninja){
 
-			return response()->json(
+			$result[] = 
 
 				[
 					"id" => $ninja->id,
@@ -209,14 +215,41 @@ class NinjaController extends Controller
 					"skill_inform" => $ninja->skill_inform,
                     "status" => $ninja->status,
                     "register_date" => $ninja->created_at
-                ]
+                ];
                 
-                //ADD MISSIONS
+                foreach ($missionsNinjas as $missionNinja) {
+        
+                    if($missionNinja->ninja_id == $ninja->id){
 
-			);
-		}
+                        $mission = Mission::where('id',$missionNinja->mission_id)->get();
 
-		return response("Ninja Not Found");
+                        if($mission){
+                            foreach ($mission as $mission) {
+        
+                                if($missionNinja->ninja_id == $ninja->id){
+            
+                                    $result[] = [
+                
+                                        "mission_id" => $mission->id,
+                                        "register_date" => $mission->created_at,
+                                        "status" => $mission->status
+                        
+                                    ];
+                                }
+        
+                            }
+        
+                        }
+
+                    }
+
+                }
+			
+		}else{
+           return response("Ninja Not Found"); 
+        }
+
+		return response()->json($result);
 	}
 
     public function filter($filter,$value){

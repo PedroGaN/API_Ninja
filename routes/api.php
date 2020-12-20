@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NinjaController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MissionController;
+use App\Http\Controllers\MissionsNinjasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +46,9 @@ Route::prefix('missions')->group(function () {
     Route::get('/filter/{filter}/{value}',[MissionController::class,"listMissionsFiltered"]);
     Route::get('/list',[MissionController::class,"listMissions"]);
     Route::get('/check/{id}',[MissionController::class,"checkMission"]);
+});
+
+Route::prefix('assign')->group(function () {
+	Route::post('/assign/{ninjaID}/{missionID}',[MissionsNinjasController::class,"assignNinja"]);
+    Route::post('/dismiss/{ninjaID}/{missionID}',[MissionsNinjasController::class,"dismissNinja"]);
 });
