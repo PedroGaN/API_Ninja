@@ -40,8 +40,9 @@ class NinjaController extends Controller
 
                 $ninja->save();
 
-                $response = "Ninja with name:" + $ninja->name + " saved successfully";
+                $response = "Ninja with name:".$ninja->name." saved successfully";
             }catch(\Exception $e){
+                print("entro");
                 $response = $e->getMessage();
             }
 
@@ -65,7 +66,7 @@ class NinjaController extends Controller
 			$data = $request->getContent();
 
 			//Verificar que hay datos
-			$data = json_decode($datos);
+			$data = json_decode($data);
 
 			if($data){
 
@@ -85,10 +86,55 @@ class NinjaController extends Controller
 
 					$ninja->save();
 
-					$response = "Ninja with name:" + $ninja->name + " updated successfully";
+					$response = "Ninja with name:".$ninja->name." updated successfully";
 				}catch(\Exception $e){
 					$response = $e->getMessage();
 				}
+			}else{
+				$response = "Incorrect Data";
+			}
+		}else{
+			$response = "Ninja Not Found";
+		}
+
+		return response($response);
+    }
+    
+    public function changeNinjaStatus(Request $request,$id){
+
+		$response = "";
+
+		//Buscar si existe la nave
+		$ninja = Ninja::find($id);
+
+		if($ninja){
+
+			//Procesar los datos recibidos
+			$data = $request->getContent();
+
+			//Verificar que hay datos
+			$data = json_decode($data);
+
+			if($data){
+
+				//TODO: validar los datos introducidos
+
+                if(isset($data->status)){
+                    $ninja->status = $data->status;
+
+                    //Guardar el ninja
+                    try{
+
+                        $ninja->save();
+
+                        $response = "Ninja with name:".$ninja->name." status updated successfully";
+                    }catch(\Exception $e){
+                        $response = $e->getMessage();
+                    }
+                }else{
+                    $response = "Status unchanged";
+                }
+
 			}else{
 				$response = "Incorrect Data";
 			}
@@ -118,9 +164,7 @@ class NinjaController extends Controller
 
 		}
 
-        $decoded_result = json_decode($result);
-
-		return response()->$decoded_result;
+		return response()->json($result);
 
     }
     
