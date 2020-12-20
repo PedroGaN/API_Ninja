@@ -63,7 +63,7 @@ class ClientController extends Controller
 			$data = $request->getContent();
 
 			//Verificar que hay datos
-			$data = json_decode($datos);
+			$data = json_decode($data);
 
 			if($data){
 
@@ -110,10 +110,31 @@ class ClientController extends Controller
 			];
 
         }
-        
-        $decoded_result = json_decode($result);
 
-		return response()->$decoded_result;
+		return response()->json($result);
 
+    }
+    
+    public function checkClient($id){
+
+		$client = Client::find($id);
+
+		if($client){
+
+			return response()->json(
+
+				[
+					"id" => $client->id,
+                    "secret_code" => $client->secret_code,
+                    "VIP" => $client->VIP,
+                    "register_date" => $client->created_at
+                ]
+                
+                //ADD MISSIONS
+
+			);
+		}
+
+		return response("Ninja Not Found");
 	}
 }

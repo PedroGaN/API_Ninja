@@ -33,7 +33,8 @@ Route::prefix('ninjas')->group(function () {
 Route::prefix('clients')->group(function () {
 	Route::post('/new',[ClientController::class,"newClient"]);
 	Route::post('/edit/{id}',[ClientController::class,"editClient"]);
-	Route::get('/list',[ClientController::class,"listClients"]);
+    Route::get('/list',[ClientController::class,"listClients"]);
+    Route::get('/check/{id}',[ClientController::class,"checkClient"]);
 });
 
 Route::prefix('missions')->group(function () {
