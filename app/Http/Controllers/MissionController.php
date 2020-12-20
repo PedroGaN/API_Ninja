@@ -181,6 +181,33 @@ class MissionController extends Controller
 		return response()->json($result);
 
     }
+
+    public function listMissionsFiltered($filter,$value){
+
+		$missions = Mission::all();
+
+        $result = [];
+        
+        if(isset($filter) && isset($value)){
+            $result = $this->filter($filter,$value);
+        }else{
+
+            foreach ($missions as $mission) {
+                $result[] = [
+
+                    "mission_code" => $mission->id,
+                    "register_date" => $mission->created_at,
+                    "URGENT" => $mission->URGENT,
+                    "client_code" => $mission->client_code,
+                    "status" => $mission->status
+
+                ];
+            }
+        }
+
+		return response()->json($result);
+
+    }
     
     public function checkMission($id){
 
@@ -207,5 +234,28 @@ class MissionController extends Controller
 		}
 
 		return response("Pilot Not Found");
-	}
+    }
+    
+    public function filter($filter,$value){
+        $missions = Mission::all();
+
+        $result = [];
+
+        foreach ($missions as $mission) {
+            
+            if ($mission->$filter == $value){
+                $result[] = [
+    
+                    "mission_code" => $mission->id,
+                    "register_date" => $mission->created_at,
+                    "URGENT" => $mission->URGENT,
+                    "client_code" => $mission->client_code,
+                    "status" => $mission->status
+    
+                ];
+            }
+        }
+
+        return $result;
+    }
 }

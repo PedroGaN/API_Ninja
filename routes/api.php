@@ -41,7 +41,8 @@ Route::prefix('clients')->group(function () {
 Route::prefix('missions')->group(function () {
 	Route::post('/new',[MissionController::class,"newMission"]);
 	Route::post('/edit/{id}',[MissionController::class,"editMission"]);
-	Route::post('/changeStatus/{id}',[MissionController::class,"changeMissionStatus"]);
+    Route::post('/changeStatus/{id}',[MissionController::class,"changeMissionStatus"]);
+    Route::get('/filter/{filter}/{value}',[MissionController::class,"listMissionsFiltered"]);
     Route::get('/list',[MissionController::class,"listMissions"]);
     Route::get('/check/{id}',[MissionController::class,"checkMission"]);
 });
