@@ -26,5 +26,11 @@ Route::prefix('ninjas')->group(function () {
 	Route::post('/new',[NinjaController::class,"newNinja"]);
 	Route::post('/edit/{id}',[NinjaController::class,"editNinja"]);
 	Route::post('/changeStatus/{id}{newStatus}',[NinjaController::class,"statusChangeNinja"]);
-	//Route::get('/check/{id}',[NinjaController::class,"checkPilot"]);
+	Route::get('/list',[NinjaController::class,"listNinjas"]);
+});
+
+Route::prefix('clients')->group(function () {
+	Route::post('/new',[NinjaController::class,"newClient"]);
+	Route::post('/edit/{id}',[NinjaController::class,"editClient"]);
+	Route::get('/list',[NinjaController::class,"listClients"]);
 });

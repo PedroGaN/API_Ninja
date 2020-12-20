@@ -91,5 +91,29 @@ class ClientController extends Controller
 		}
 
 		return response($response);
+    }
+    
+    public function listClients(){
+
+		$clients = Client::all();
+
+		$result = [];
+
+		foreach ($clients as $client) {
+			
+			$result[] = [
+
+				"secret_code" => $client->secret_code,
+				"register_date" => $client->created_at,
+                "VIP?" => $client->VIP
+
+			];
+
+        }
+        
+        $decoded_result = json_decode($result);
+
+		return response()->$decoded_result;
+
 	}
 }

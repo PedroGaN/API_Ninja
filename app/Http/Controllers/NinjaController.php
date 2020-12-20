@@ -99,7 +99,7 @@ class NinjaController extends Controller
 		return response($response);
 	}
 
-	public function listNinja(){
+	public function listNinjas(){
 
 		$ninjas = Ninja::all();
 
@@ -118,7 +118,9 @@ class NinjaController extends Controller
 
 		}
 
-		return response()->json($resultado);
+        $decoded_result = json_decode($result);
+
+		return response()->$decoded_result;
 
 	}
 
