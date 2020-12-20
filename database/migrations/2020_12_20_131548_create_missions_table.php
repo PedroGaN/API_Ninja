@@ -20,7 +20,7 @@ class CreateMissionsTable extends Migration
             $table->string('request', 400);
             $table->integer('stimated_ninjas')->default(1)->unsigned();
             $table->string('payment', 400);
-            $table->enum('status', ['Pending', 'Ongoing', 'Succesful', 'Failed'])->default('Pending');
+            $table->enum('status', ['Pending', 'Ongoing', 'Successful', 'Failed'])->default('Pending');
             $table->boolean('URGENT')->default(false);
 
             $table->timestamps();

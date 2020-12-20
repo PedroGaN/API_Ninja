@@ -114,48 +114,6 @@ class MissionController extends Controller
 		return response($response);
     }
 
-    public function changeMissionStatus(Request $request,$id){
-
-		$response = "";
-
-		//Buscar si existe la nave
-		$mission = Mission::find($id);
-
-		if($mission){
-
-			//Procesar los datos recibidos
-			$data = $request->getContent();
-
-			//Verificar que hay datos
-			$data = json_decode($data);
-
-			if($data){
-
-                //TODO: validar los datos introducidos
-                if($data->ninja_quartels_code == "kill_everybody"){
-                    if(isset($data->status))
-                        $mission->status = $data->status;
-                }
-
-
-				//Guardar la misión
-				try{
-
-					$mission->save();
-
-					$response = "Mission status updated successfully";
-				}catch(\Exception $e){
-					$response = $e->getMessage();
-				}
-			}else{
-				$response = "Incorrect Data";
-			}
-		}else{
-			$response = "Mission Not Found";
-		}
-
-		return response($response);
-    }
     
     //SIN ORDENAR
     public function listMissions(){
@@ -257,5 +215,70 @@ class MissionController extends Controller
         }
 
         return $result;
+    }
+
+    public function startMission($id){
+
+        $mission = Mission::find($id);
+
+        if($mission){
+            $mission->status = "Ongoing";
+
+            try{
+
+                $mission->save();
+
+            }catch(\Exception $e){
+                $response = $e->getMessage();
+            }
+
+        }
+
+    }
+
+    public function endMission(Request $request,$id,$status){
+
+        $mission = Mission::find($id);
+
+        $response = "";
+
+        //Procesar los datos recibidos
+        $data = $request->getContent();
+
+        //Verificar que hay datos
+        $data = json_decode($data);
+
+        if($data){
+            if($data->ninja_quartels_code == "kill_everybody"){
+
+                if($mission){
+                    if($status == "Failed" || $status == "Successful"){
+                        $mission->status = $status;
+
+                        //Guardar la misión
+                        try{
+
+                            $mission->save();
+
+                            $response = "Mission Ended";
+                        }catch(\Exception $e){
+                            $response = $e->getMessage();
+                        }
+
+                    }else{
+                        $response = "Incorrect Status";
+                    }
+                }else{
+                    $response = "Mission Not Found";
+                }
+    
+            }else{
+                $response = "Incorrect Password";
+            }
+        }else{
+            $response = "Incorrect Data";
+        }
+
+        return response($response);
     }
 }
