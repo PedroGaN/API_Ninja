@@ -16,7 +16,7 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
 
-            $table->string('secret_code', 100);
+            $table->string('secret_code', '100');
             $table->boolean('VIP')->default(false);
 
             $table->timestamps();

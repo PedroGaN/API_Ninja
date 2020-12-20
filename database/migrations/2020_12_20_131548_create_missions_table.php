@@ -16,6 +16,7 @@ class CreateMissionsTable extends Migration
         Schema::create('missions', function (Blueprint $table) {
             $table->id();
 
+            $table->string('client_code', 100);
             $table->string('request', 400);
             $table->integer('stimated_ninjas')->default(1)->unsigned();
             $table->string('payment', 400);
