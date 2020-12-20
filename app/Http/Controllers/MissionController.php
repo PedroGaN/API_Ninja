@@ -177,10 +177,8 @@ class MissionController extends Controller
 			];
 
         }
-        
-        $decoded_result = json_decode($result);
 
-		return response()->$decoded_result;
+		return response()->json($result);
 
     }
     

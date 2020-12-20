@@ -140,20 +140,18 @@ class ClientController extends Controller
                         $result[] = [
             
                             "id" => $mission->id,
-                            "request" => $mission->request,
+                            "URGENT" => $mission->URGENT,
                             "status" => $mission->status,
                             "payment" => $mission->payment,
-                            "stimated_ninjas" => $mission->stimated_ninjas
+                            "register_date" => $mission->created_at
             
                         ];
                     }
-
-        
                 }
 
             return response()->json($result);
 		}
 
-		return response("Ninja Not Found");
+		return response("Client Not Found");
 	}
 }
