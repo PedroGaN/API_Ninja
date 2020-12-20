@@ -15,6 +15,12 @@ class CreateNinjasTable extends Migration
     {
         Schema::create('ninjas', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name', 100);
+            $table->enum('rank', ['Genin', 'Chunin', 'Jonin', 'Kage'])->default('Genin');
+            $table->string('skill_inform', 400);
+            $table->enum('status', ['Active', 'Former', 'Deceased', 'Deserter'])->default('Active');
+
             $table->timestamps();
         });
     }
