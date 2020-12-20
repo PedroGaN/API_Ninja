@@ -13,7 +13,7 @@ class MissionController extends Controller
 
     public function newMission(Request $request){
 
-        $response = "";
+        $response = "Secret Code not found";
         
         $clients = Client::all();
 
@@ -27,34 +27,32 @@ class MissionController extends Controller
 			//TODO: validar los datos introducidos
             //Crear el misión
             $mission = new Mission();
-
             
             foreach ($clients as $client) {
                 
                 if ($client->secret_code == $data->secret_code){
                     $mission->client_code = $data->secret_code;
+
+                    //Valores obligatorios
+                    $mission->request = $data->request;
+                    $mission->payment = $data->payment;
+
+                    //Valores opcionales
+                    if(isset($data->stimated_ninjas))
+                        $mission->stimated_ninjas = $data->stimated_ninjas;
+                    if(isset($data->URGENT))
+                        $mission->URGENT = $data->URGENT;
+
+                    //Guardar la misión
+                    try{
+
+                        $mission->save();
+
+                        $response = "Mission saved successfully";
+                    }catch(\Exception $e){
+                        $response = $e->getMessage();
+                    }
                 }
-
-            }
-
-			//Valores obligatorios
-            $mission->request = $data->request;
-            $mission->payment = $data->payment;
-
-			//Valores opcionales
-            if(isset($data->stimated_ninjas))
-                $mission->stimated_ninjas = $data->stimated_ninjas;
-            if(isset($data->URGENT))
-                $mission->URGENT = $data->URGENT;
-
-            //Guardar la misión
-            try{
-
-                $mission->save();
-
-                $response = "Mission saved successfully";
-            }catch(\Exception $e){
-                $response = $e->getMessage();
             }
 
 		}else{
@@ -66,7 +64,7 @@ class MissionController extends Controller
 
     public function editMission(Request $request,$id){
 
-		$response = "";
+		$response = "Incorrect Client Code";
 
 		//Buscar si existe la nave
 		$mission = Mission::find($id);
@@ -77,7 +75,7 @@ class MissionController extends Controller
 			$data = $request->getContent();
 
 			//Verificar que hay datos
-			$data = json_decode($datos);
+			$data = json_decode($data);
 
 			if($data){
 
@@ -129,7 +127,7 @@ class MissionController extends Controller
 			$data = $request->getContent();
 
 			//Verificar que hay datos
-			$data = json_decode($datos);
+			$data = json_decode($data);
 
 			if($data){
 
