@@ -9,7 +9,7 @@ use App\Models\Ninja;
 class NinjaController extends Controller
 {
     //
-    public function newMechanic(Request $request){
+    public function newNinja(Request $request){
 
 		$response = "";
 
@@ -85,7 +85,7 @@ class NinjaController extends Controller
 
 					$ninja->save();
 
-					$response = "Ninja with name:" + $ninja->name + " update successfully";
+					$response = "Ninja with name:" + $ninja->name + " updated successfully";
 				}catch(\Exception $e){
 					$response = $e->getMessage();
 				}
