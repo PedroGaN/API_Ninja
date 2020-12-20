@@ -145,24 +145,50 @@ class NinjaController extends Controller
 		return response($response);
 	}
 
-	public function listNinjas(){
+	public function listNinjasFiltered($filter,$value){
 
 		$ninjas = Ninja::all();
 
-		$result = [];
-
-		foreach ($ninjas as $ninja) {
+        $result = [];
+        
+        if(isset($filter) && isset($value)){
+            $result = $this->filter($filter,$value);
+        }else{
+            foreach ($ninjas as $ninja) {
 			
-			$result[] = [
+                $result[] = [
+    
+                    "name" => $ninja->name,
+                    "register_date" => $ninja->created_at,
+                    "rank" => $ninja->rank,
+                    "status" => $ninja->status
+    
+                ];
+            }
+        }
 
-				"name" => $ninja->name,
-				"register_date" => $ninja->created_at,
+		return response()->json($result);
+
+    }
+
+    public function listNinjas(){
+
+		$ninjas = Ninja::all();
+
+        $result = [];
+
+        foreach ($ninjas as $ninja) {
+        
+            $result[] = [
+
+                "name" => $ninja->name,
+                "register_date" => $ninja->created_at,
                 "rank" => $ninja->rank,
                 "status" => $ninja->status
 
-			];
-
-		}
+            ];
+        }
+        
 
 		return response()->json($result);
 
@@ -192,5 +218,27 @@ class NinjaController extends Controller
 
 		return response("Ninja Not Found");
 	}
+
+    public function filter($filter,$value){
+        $ninjas = Ninja::all();
+
+        $result = [];
+
+        foreach ($ninjas as $ninja) {
+            
+            if ($ninja->$filter == $value){
+                $result[] = [
+
+                    "name" => $ninja->name,
+                    "register_date" => $ninja->created_at,
+                    "rank" => $ninja->rank,
+                    "status" => $ninja->status
+    
+                ];
+            }
+        }
+
+        return $result;
+    }
 
 }

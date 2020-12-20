@@ -25,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('ninjas')->group(function () {
 	Route::post('/new',[NinjaController::class,"newNinja"]);
 	Route::post('/edit/{id}',[NinjaController::class,"editNinja"]);
-	Route::post('/changeStatus/{id}',[NinjaController::class,"changeNinjaStatus"]);
+    Route::post('/changeStatus/{id}',[NinjaController::class,"changeNinjaStatus"]);
+    Route::get('/filter/{filter}/{value}',[NinjaController::class,"listNinjasFiltered"]);
     Route::get('/list',[NinjaController::class,"listNinjas"]);
     Route::get('/check/{id}',[NinjaController::class,"checkNinja"]);
 });
