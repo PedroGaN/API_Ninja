@@ -26,11 +26,20 @@ Route::prefix('ninjas')->group(function () {
 	Route::post('/new',[NinjaController::class,"newNinja"]);
 	Route::post('/edit/{id}',[NinjaController::class,"editNinja"]);
 	Route::post('/changeStatus/{id}{newStatus}',[NinjaController::class,"statusChangeNinja"]);
-	Route::get('/list',[NinjaController::class,"listNinjas"]);
+    Route::get('/list',[NinjaController::class,"listNinjas"]);
+    Route::get('/check/{id}',[NinjaController::class,"checkNinja"]);
 });
 
 Route::prefix('clients')->group(function () {
-	Route::post('/new',[NinjaController::class,"newClient"]);
-	Route::post('/edit/{id}',[NinjaController::class,"editClient"]);
-	Route::get('/list',[NinjaController::class,"listClients"]);
+	Route::post('/new',[ClientController::class,"newClient"]);
+	Route::post('/edit/{id}',[ClientController::class,"editClient"]);
+	Route::get('/list',[ClientController::class,"listClients"]);
+});
+
+Route::prefix('missions')->group(function () {
+	Route::post('/new',[MissionController::class,"newMission"]);
+	Route::post('/edit/{id}',[MissionController::class,"editMission"]);
+	Route::post('/changeStatus/{id}',[MissionController::class,"changeMissionStatus"]);
+    Route::get('/list',[MissionController::class,"listMissions"]);
+    Route::get('/checkMission/{id}',[MissionController::class,"checkMission"]);
 });

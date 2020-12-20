@@ -122,6 +122,31 @@ class NinjaController extends Controller
 
 		return response()->$decoded_result;
 
+    }
+    
+    public function checkNinja($id){
+
+		$ninja = Ninja::find($id);
+
+		if($ninja){
+
+			return response()->json(
+
+				[
+					"id" => $ninja->id,
+					"name" => $ninja->name,
+					"rank" => $ninja->rank,
+					"skill_inform" => $ninja->skill_inform,
+                    "status" => $ninja->status,
+                    "register_date" => $ninja->created_at
+                ]
+                
+                //ADD MISSIONS
+
+			);
+		}
+
+		return response("Ninja Not Found");
 	}
 
 }

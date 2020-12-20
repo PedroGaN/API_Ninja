@@ -22,7 +22,7 @@ class ClientController extends Controller
 
 		if($data){
 			//TODO: validar los datos introducidos
-            //Crear el ninja
+            //Crear el cliente
             $client = new CLient();
 
 
@@ -33,7 +33,7 @@ class ClientController extends Controller
             if(isset($data->VIP))
                 $client->VIP = $data->VIP;
 
-            //Guardar el ninja
+            //Guardar el cliente
             try{
 
                 $client->save();
@@ -74,7 +74,7 @@ class ClientController extends Controller
 				if(isset($data->VIP))
 					$client->VIP = $data->VIP;
 
-				//Guardar el ninja
+				//Guardar el cliente
 				try{
 
 					$client->save();
@@ -87,7 +87,7 @@ class ClientController extends Controller
 				$response = "Incorrect Data";
 			}
 		}else{
-			$response = "Ninja Not Found";
+			$response = "Client Not Found";
 		}
 
 		return response($response);
