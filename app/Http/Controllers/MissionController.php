@@ -118,7 +118,7 @@ class MissionController extends Controller
     //SIN ORDENAR
     public function listMissions(){
 
-		$missions = Mission::all();
+		$missions = Mission::orderBy('URGENT','DESC')->orderBy('created_at','ASC')->get();
 
 		$result = [];
 
@@ -195,7 +195,8 @@ class MissionController extends Controller
     }
     
     public function filter($filter,$value){
-        $missions = Mission::all();
+        
+        $missions = Mission::orderBy('URGENT','DESC')->orderBy('created_at','ASC')->get();
 
         $result = [];
 
@@ -254,6 +255,7 @@ class MissionController extends Controller
                 if($mission){
                     if($status == "Failed" || $status == "Successful"){
                         $mission->status = $status;
+                        $mission->end_date = date('Y-m-d');
 
                         //Guardar la misión
                         try{

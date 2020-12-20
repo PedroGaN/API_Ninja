@@ -9,11 +9,15 @@ class Mission extends Model
 {
     use HasFactory;
 
-    public function client(){
-        return $this->belongsTo(Client::class);
+    public function ninja(){
+        return $this->belongsTo(Ninja::class);
     }
 
-    public function ninjas(){
-        return $this->hasMany(Ninja::class);
+    public function mission(){
+        return $this->belongTo(Mission::class);
+    }
+
+    public function missions_ninjas(){
+        return $this->hasMany(MissionsNinjas::class);
     }
 }

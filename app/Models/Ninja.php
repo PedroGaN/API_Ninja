@@ -13,4 +13,8 @@ class Ninja extends Model
         return $this->belongTo(Mission::class);
     }
 
+    public function missions_ninjas(){
+        return $this->hasMany(MissionsNinjas::class);
+    }
+
 }
