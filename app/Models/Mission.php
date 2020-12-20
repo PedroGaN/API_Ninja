@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Mission extends Model
 {
     use HasFactory;
+
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
+    public function ninjas(){
+        return $this->hasMany(Ninja::class);
+    }
 }
