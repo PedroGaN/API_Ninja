@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Client;
+use App\Models\Mission;
 
 class ClientController extends Controller
 {
@@ -117,22 +118,40 @@ class ClientController extends Controller
     
     public function checkClient($id){
 
-		$client = Client::find($id);
+        $client = Client::find($id);
+        
+        $missions = Mission::all();
+        $result = [];
 
 		if($client){
 
-			return response()->json(
-
+            $result[] = 
 				[
 					"id" => $client->id,
                     "secret_code" => $client->secret_code,
                     "VIP" => $client->VIP,
                     "register_date" => $client->created_at
-                ]
+                ];
                 
-                //ADD MISSIONS
+                foreach ($missions as $mission) {
+            
+                    if($client->secret_code == $mission->client_code){
+                        
+                        $result[] = [
+            
+                            "id" => $mission->id,
+                            "request" => $mission->request,
+                            "status" => $mission->status,
+                            "payment" => $mission->payment,
+                            "stimated_ninjas" => $mission->stimated_ninjas
+            
+                        ];
+                    }
 
-			);
+        
+                }
+
+            return response()->json($result);
 		}
 
 		return response("Ninja Not Found");
